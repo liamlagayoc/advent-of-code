@@ -2,19 +2,19 @@ package main.java.day1;
 
 import java.util.*;
 
-public class Day1 {
-    private List<Elf> numberOfElves;
+public class Inventory {
+    private List<Elf> elfList;
 
-    public Day1() {
-        numberOfElves = new ArrayList<>();
+    public Inventory() {
+        elfList = new ArrayList<>();
     }
 
     public int calculateHighestNumberOfCalories() {
-        if(numberOfElves.isEmpty()) {
+        if(elfList.isEmpty()) {
             return 0;
         }
 
-        Elf elfWithHighestCalories = Collections.max(numberOfElves, Comparator.comparingInt(Elf::getNumberOfCalories));
+        Elf elfWithHighestCalories = Collections.max(elfList, Comparator.comparingInt(Elf::getNumberOfCalories));
         return elfWithHighestCalories.getNumberOfCalories();
     }
 
@@ -38,15 +38,19 @@ public class Day1 {
         }
     }
 
-    public int getNumberOfElves() {
-        return numberOfElves.size();
+    public int getElfList() {
+        return elfList.size();
     }
 
     public void addElfToInventoryList(Elf elf) {
-        numberOfElves.add(elf);
+        elfList.add(elf);
     }
 
     private Elf createElf() {
         return new Elf(0);
+    }
+
+    public List<Elf> getElves() {
+        return this.elfList;
     }
 }

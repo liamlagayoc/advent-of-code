@@ -79,4 +79,9 @@ public class FileUtilsTest {
 
         assertArrayEquals(FileUtils.splitFileContent(textInput), calorieContents);
     }
+
+    @Test
+    void it_returns_an_empty_array_if_text_is_empty() {
+        assertArrayEquals(FileUtils.splitFileContent(""), new String[]{});
+    }
 }

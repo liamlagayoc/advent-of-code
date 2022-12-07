@@ -1,6 +1,6 @@
 package test.java.day1;
 
-import main.java.day1.Day1;
+import main.java.day1.Inventory;
 import main.java.day1.Elf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,17 +8,18 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Day1Test {
-    private Day1 dayOne;
+public class InventoryTest {
+    private Inventory dayOne;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     @BeforeEach
     void setUp() {
-        dayOne = new Day1();
+        dayOne = new Inventory();
         System.setOut(new PrintStream(outContent));
     }
 
@@ -54,7 +55,7 @@ public class Day1Test {
                 "3000";
 
         dayOne.processInventory(input);
-        assertEquals(dayOne.getNumberOfElves(), 1);
+        assertEquals(dayOne.getElfList(), 1);
     }
 
     @Test
@@ -66,7 +67,7 @@ public class Day1Test {
                 "4000";
 
         dayOne.processInventory(input);
-        assertEquals(dayOne.getNumberOfElves(), 2);
+        assertEquals(dayOne.getElfList(), 2);
     }
 
     @Test
@@ -81,7 +82,25 @@ public class Day1Test {
                 "6000";
 
         dayOne.processInventory(input);
-        assertEquals(dayOne.getNumberOfElves(), 3);
+        assertEquals(dayOne.getElfList(), 3);
+    }
+
+    @Test
+    void it_contains_the_correct_number_of_calories_per_elf() {
+        String input = "1000\n" +
+                "2000\n" +
+                "3000\n" +
+                "\n" +
+                "4000\n" +
+                "\n" +
+                "5000\n" +
+                "6000";
+
+        dayOne.processInventory(input);
+        List<Elf> elves = dayOne.getElves();
+        assertEquals(elves.get(0).getNumberOfCalories(), 6000);
+        assertEquals(elves.get(1).getNumberOfCalories(), 4000);
+        assertEquals(elves.get(2).getNumberOfCalories(), 11000);
     }
 
     @Test
@@ -125,7 +144,8 @@ public class Day1Test {
     }
 
     @Test
-    void it_gets_the_elf_with_highest_number_of_calories() {
+    void it_returns_zero_if_no_input_exists() {
+        dayOne.processInventory("");
         assertEquals(dayOne.calculateHighestNumberOfCalories(), 0);
     }
 
@@ -134,6 +154,6 @@ public class Day1Test {
         Elf elf = new Elf(0);
         elf.addFood(5000);
         dayOne.addElfToInventoryList(elf);
-        assertEquals(dayOne.getNumberOfElves(), 1);
+        assertEquals(dayOne.getElfList(), 1);
     }
 }

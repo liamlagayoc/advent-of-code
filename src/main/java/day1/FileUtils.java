@@ -22,6 +22,9 @@ public class FileUtils {
     }
 
     public static String[] splitFileContent(String textInput) {
+        if(textInput.isEmpty())
+            return new String[]{};
+
         return textInput.split("\n");
     }
 }
