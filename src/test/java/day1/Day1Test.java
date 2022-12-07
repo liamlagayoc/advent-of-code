@@ -44,16 +44,7 @@ public class Day1Test {
                 "\n" +
                 "10000";
         String filename = "src/test/resources/input_day1_test.txt";
-        assertEquals(dayOne.dataToProcess(filename), textOutput);
-    }
-
-    @Test
-    void it_prints_out_an_error_if_file_is_not_found() {
-        String filename = "src/test/resources/input_day2_test.txt";
-        String output = dayOne.dataToProcess(filename);
-        String outputLogs = outContent.toString();
-        assertEquals("File not found: " + filename, outputLogs);
-        assertEquals("", output);
+        assertEquals(dayOne.getInventory(filename), textOutput);
     }
 
     @Test
@@ -67,48 +58,82 @@ public class Day1Test {
     }
 
     @Test
-    void it_returns_the_correct_number_of_calories_for_the_elf() {
+    void the_inventory_contains_two_elves() {
         String input = "1000\n" +
                 "2000\n" +
-                "3000";
+                "3000\n" +
+                "\n" +
+                "4000";
 
         dayOne.processInventory(input);
-        assertEquals(dayOne.getCaloriesForElf(), 6000);
+        assertEquals(dayOne.getNumberOfElves(), 2);
     }
 
     @Test
-    void it_splits_the_data() {
-        String textInput = "1000\n" +
+    void the_inventory_contains_three_elves() {
+        String input = "1000\n" +
                 "2000\n" +
                 "3000\n" +
                 "\n" +
                 "4000\n" +
                 "\n" +
                 "5000\n" +
-                "6000\n" +
-                "\n" +
-                "7000\n" +
-                "8000\n" +
-                "9000\n" +
-                "\n" +
-                "10000";
+                "6000";
 
-        String[] calorieContents = new String[] {
-                "1000",
-                "2000","3000","","4000","","5000","6000","",
-                "7000","8000","9000","","10000"
-        };
-
-        assertArrayEquals(dayOne.splitFileContent(textInput), calorieContents);
+        dayOne.processInventory(input);
+        assertEquals(dayOne.getNumberOfElves(), 3);
     }
 
     @Test
-    void it_creates_an_elf() {
-        assertNotNull(dayOne.createElf());
+    void the_inventory_returns_the_highest_number_of_calories_with_one_elf() {
+        String input = "1000\n" +
+                "2000\n" +
+                "3000";
+
+        dayOne.processInventory(input);
+        assertEquals(dayOne.calculateHighestNumberOfCalories(), 6000);
+    }
+
+    @Test
+    void the_inventory_returns_the_highest_number_of_calories_with_two_elves() {
+        String input = "1000\n" +
+                "2000\n" +
+                "3000\n" +
+                "\n" +
+                "6001";
+
+        dayOne.processInventory(input);
+        assertEquals(dayOne.calculateHighestNumberOfCalories(), 6001);
+    }
+
+    @Test
+    void the_inventory_returns_the_highest_number_of_calories_with_four_elves() {
+        String input = "1000\n" +
+                "2000\n" +
+                "3000\n" +
+                "\n" +
+                "6001\n" +
+                "\n" +
+                "2000\n" +
+                "2000\n" +
+                "500\n" +
+                "\n" +
+                "9500";
+
+        dayOne.processInventory(input);
+        assertEquals(dayOne.calculateHighestNumberOfCalories(), 9500);
     }
 
     @Test
     void it_gets_the_elf_with_highest_number_of_calories() {
         assertEquals(dayOne.calculateHighestNumberOfCalories(), 0);
+    }
+
+    @Test
+    void it_adds_an_elf_to_the_inventory_list() {
+        Elf elf = new Elf(0);
+        elf.addFood(5000);
+        dayOne.addElfToInventoryList(elf);
+        assertEquals(dayOne.getNumberOfElves(), 1);
     }
 }

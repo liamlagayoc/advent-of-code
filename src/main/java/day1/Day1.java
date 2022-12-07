@@ -1,9 +1,6 @@
 package main.java.day1;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Day1 {
     private List<Elf> numberOfElves;
@@ -13,51 +10,43 @@ public class Day1 {
     }
 
     public int calculateHighestNumberOfCalories() {
-        return 0;
-    }
-
-    public String dataToProcess(String filename) {
-        String data = readFile(filename);
-        return data;
-    }
-
-    public Elf createElf() {
-        return new Elf(0);
-    }
-
-    private String readFile(String filename) {
-        try(Scanner scanner = new Scanner(new File(filename))) {
-            StringBuilder builder = new StringBuilder();
-            while(scanner.hasNextLine()) {
-                builder.append(scanner.nextLine());
-                if(scanner.hasNextLine()) {
-                    builder.append("\n");
-                }
-            }
-            return builder.toString();
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.out.print("File not found: " + filename);
-            return "";
+        if(numberOfElves.isEmpty()) {
+            return 0;
         }
+
+        Elf elfWithHighestCalories = Collections.max(numberOfElves, Comparator.comparingInt(Elf::getNumberOfCalories));
+        return elfWithHighestCalories.getNumberOfCalories();
     }
 
-    public String[] splitFileContent(String textInput) {
-        return textInput.split("\n");
+    public String getInventory(String filename) {
+        return FileUtils.getInventory(filename);
     }
 
     public void processInventory(String input) {
         Elf elf = createElf();
-        for(String inputText : splitFileContent(input)) {
-            elf.addFood(Integer.valueOf(inputText));
+        for(Iterator<String> inventoryIterator = Arrays.stream(FileUtils.splitFileContent(input)).iterator(); inventoryIterator.hasNext();) {
+            String inventoryItem = inventoryIterator.next();
+            if(inventoryItem.isEmpty()) {
+                addElfToInventoryList(elf);
+                elf = createElf();
+            } else {
+                elf.addFood(Integer.valueOf(inventoryItem));
+                if(!inventoryIterator.hasNext()) {
+                   addElfToInventoryList(elf);
+                }
+            }
         }
-        numberOfElves.add(elf);
     }
 
     public int getNumberOfElves() {
         return numberOfElves.size();
     }
 
-    public int getCaloriesForElf() {
-        return numberOfElves.get(0).getNumberOfCalories();
+    public void addElfToInventoryList(Elf elf) {
+        numberOfElves.add(elf);
+    }
+
+    private Elf createElf() {
+        return new Elf(0);
     }
 }
