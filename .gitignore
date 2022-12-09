@@ -2,6 +2,7 @@
 *.class
 *.idea/
 out/
+**/.DS_Store
 
 # Log file
 *.log

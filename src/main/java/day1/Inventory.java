@@ -38,7 +38,7 @@ public class Inventory {
         }
     }
 
-    public int getElfList() {
+    public int getNumberOfElves() {
         return elfList.size();
     }
 
@@ -52,5 +52,17 @@ public class Inventory {
 
     public List<Elf> getElves() {
         return this.elfList;
+    }
+
+    public int calculateNumberOfCaloriesForTopElves(int numberOfElves) {
+        Collections.sort(this.elfList, Collections.reverseOrder());
+        if(numberOfElves > getNumberOfElves())
+            return sumNumberOfCaloriesForTopElves(this.elfList);
+        else
+            return sumNumberOfCaloriesForTopElves(this.elfList.subList(0, numberOfElves));
+    }
+
+    private int sumNumberOfCaloriesForTopElves(List<Elf> topElves) {
+        return topElves.stream().mapToInt(Elf::getNumberOfCalories).sum();
     }
 }

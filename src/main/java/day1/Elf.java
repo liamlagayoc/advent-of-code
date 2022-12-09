@@ -1,6 +1,6 @@
 package main.java.day1;
 
-public class Elf {
+public class Elf implements Comparable<Elf> {
     private int numberOfCalories;
 
     public Elf(int numberOfCalories) {
@@ -17,5 +17,14 @@ public class Elf {
             return;
         }
         this.numberOfCalories += numberOfCalories;
+    }
+
+    @Override
+    public int compareTo(Elf elfToCompare) {
+        if(numberOfCalories > elfToCompare.numberOfCalories)
+            return 1;
+        else if(numberOfCalories < elfToCompare.numberOfCalories)
+            return -1;
+        return 0;
     }
 }

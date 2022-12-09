@@ -62,4 +62,31 @@ public class ElfTest {
         assertEquals("Negative number provided. Unable to add", outputLogs);
         assertEquals(elf.getNumberOfCalories(), 1275);
     }
+
+    @Test
+    void it_returns_one_if_elf_has_higher_number_of_calories_than_another_elf() {
+        elf.addFood(1250);
+        Elf elfToCompare = new Elf(0);
+        elfToCompare.addFood(1249);
+
+        assertEquals(elf.compareTo(elfToCompare), 1);
+    }
+
+    @Test
+    void it_returns_minus_one_if_elf_has_lower_number_of_calories_than_another_elf() {
+        elf.addFood(1250);
+        Elf elfToCompare = new Elf(0);
+        elfToCompare.addFood(1252);
+
+        assertEquals(elf.compareTo(elfToCompare), -1);
+    }
+
+    @Test
+    void it_returns_zero_if_elf_has_same_number_of_calories_than_another_elf() {
+        elf.addFood(1250);
+        Elf elfToCompare = new Elf(0);
+        elfToCompare.addFood(1250);
+
+        assertEquals(elf.compareTo(elfToCompare), 0);
+    }
 }
